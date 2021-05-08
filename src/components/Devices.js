@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import { IconButton } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import useGetDevices from "../hooks/useGetDevices";
 import styled from "styled-components";
 import React from "react";
 
@@ -26,13 +27,15 @@ const DeviceActions = styled.div({
   },
 });
 
-function Device() {
+function Device({ device }) {
+  const { system_name, type, hdd_capacity } = device;
+
   return (
     <DeviceContainer>
       <div>
-        <div>SUSAN-DESKTOP</div>
-        <div>Windows Workstation</div>
-        <div>128 GB</div>
+        <div>{system_name}</div>
+        <div>{type}</div>
+        <div>{hdd_capacity}</div>
       </div>
       <DeviceActions>
         <Button>Edit</Button>
@@ -45,13 +48,20 @@ function Device() {
 }
 
 export default function Devices() {
+  const { devices } = useGetDevices();
+
   return (
     <StyledPaper>
-      <Device />
-      <Divider />
-      <Device />
-      <Divider />
-      <Device />
+      {devices.map((device, index) => {
+        const lastItem = index === devices.length - 1;
+
+        return (
+          <React.Fragment>
+            <Device key={device.id} device={device} />
+            {!lastItem && <Divider />}
+          </React.Fragment>
+        );
+      })}
     </StyledPaper>
   );
 }
