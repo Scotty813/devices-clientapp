@@ -19,13 +19,16 @@ const DeviceContainer = styled(Paper)({
   fontSize: "16px",
 });
 
-const DeviceActions = styled.div({
+const DeviceActions = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   "& button": {
     marginLeft: "32px",
   },
-});
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+  },
+}));
 
 function Device({ device }) {
   const { system_name, type, hdd_capacity } = device;
@@ -56,8 +59,8 @@ export default function Devices() {
         const lastItem = index === devices.length - 1;
 
         return (
-          <React.Fragment>
-            <Device key={device.id} device={device} />
+          <React.Fragment key={device.id}>
+            <Device device={device} />
             {!lastItem && <Divider />}
           </React.Fragment>
         );
