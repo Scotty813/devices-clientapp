@@ -5,7 +5,7 @@ import useGetDevices from "../hooks/useGetDevices";
 const DeviceContext = createContext();
 
 export function DeviceProvider({ children }) {
-  const [selectedDevice, setSelectedDevice] = useState({});
+  const [selectedDevice, setSelectedDevice] = useState(null);
   const { devices, refetchDevices } = useGetDevices();
   return (
     <DeviceContext.Provider

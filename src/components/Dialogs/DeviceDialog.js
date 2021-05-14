@@ -14,7 +14,6 @@ import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 import { useDeviceContext } from "../../context/DeviceContext";
 import useEditDevice from "../../hooks/useEditDevice";
-import useGetDevices from "../../hooks/useGetDevices";
 
 const StyledTextField = styled(TextField)({
   marginBottom: "8px",
@@ -24,7 +23,6 @@ export default function DeviceDialog({ open, handleClose }) {
   const { selectedDevice, setSelectedDevice, refetchDevices } =
     useDeviceContext();
   const editDevice = useEditDevice();
-  // const { refetchDevices } = useGetDevices();
 
   return (
     <div>

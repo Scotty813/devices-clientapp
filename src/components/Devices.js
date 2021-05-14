@@ -4,16 +4,12 @@ import Button from "@material-ui/core/Button";
 import ConfirmDialog from "./Dialogs/ConfirmDialog";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DeviceDialog from "./Dialogs/DeviceDialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import { Divider } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import styled from "styled-components";
 import useDeleteDevice from "../hooks/useDeleteDevice";
 import { useDeviceContext } from "../context/DeviceContext";
-import useGetDevices from "../hooks/useGetDevices";
 
 const StyledPaper = styled(Paper)({
   width: "100%",
@@ -107,14 +103,7 @@ export default function Devices() {
           }
         }}
         primaryText={"Delete"}
-      >
-        <DialogTitle>Are you sure?</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            You are about to delete {selectedDevice.system_name}
-          </DialogContentText>
-        </DialogContent>
-      </ConfirmDialog>
+      />
 
       <DeviceDialog
         open={deviceDialogOpen}
