@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 import Button from "@material-ui/core/Button";
 import ConfirmDialog from "./Dialogs/ConfirmDialog";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -7,9 +5,11 @@ import DeviceDialog from "./Dialogs/DeviceDialog";
 import { Divider } from "@material-ui/core";
 import { IconButton } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
+import React from "react";
 import styled from "styled-components";
 import useDeleteDevice from "../hooks/useDeleteDevice";
 import { useDeviceContext } from "../context/DeviceContext";
+import { useDialogContext } from "../context/DialogContext";
 
 const StyledPaper = styled(Paper)({
   width: "100%",
@@ -34,9 +34,11 @@ const DeviceActions = styled.div(({ theme }) => ({
   },
 }));
 
-function Device({ device, setDeleteDialogOpen, setDeviceDialogOpen }) {
+function Device({ device }) {
   const { system_name, type, hdd_capacity } = device;
-  const { setSelectedDevice } = useDeviceContext();
+  const { setSelectedDevice, setIsNewDevice } = useDeviceContext();
+  const { setDialogOpen } = useDialogContext();
+
   return (
     <DeviceContainer>
       <div>
@@ -47,8 +49,9 @@ function Device({ device, setDeleteDialogOpen, setDeviceDialogOpen }) {
       <DeviceActions>
         <Button
           onClick={() => {
+            setIsNewDevice(false);
             setSelectedDevice(device);
-            setDeviceDialogOpen(true);
+            setDialogOpen("device", true);
           }}
         >
           Edit
@@ -56,7 +59,7 @@ function Device({ device, setDeleteDialogOpen, setDeviceDialogOpen }) {
         <IconButton
           onClick={() => {
             setSelectedDevice(device);
-            setDeleteDialogOpen(true);
+            setDialogOpen("delete", true);
           }}
         >
           <DeleteIcon />
@@ -67,8 +70,7 @@ function Device({ device, setDeleteDialogOpen, setDeviceDialogOpen }) {
 }
 
 export default function Devices() {
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deviceDialogOpen, setDeviceDialogOpen] = useState(false);
+  const { dialogMap, setDialogOpen } = useDialogContext();
   const { selectedDevice, devices, refetchDevices } = useDeviceContext();
   const deleteDevice = useDeleteDevice();
 
@@ -79,23 +81,19 @@ export default function Devices() {
 
         return (
           <React.Fragment key={device.id}>
-            <Device
-              device={device}
-              setDeleteDialogOpen={setDeleteDialogOpen}
-              setDeviceDialogOpen={setDeviceDialogOpen}
-            />
+            <Device device={device} />
             {!lastItem && <Divider />}
           </React.Fragment>
         );
       })}
 
       <ConfirmDialog
-        open={deleteDialogOpen}
-        handleClose={() => setDeleteDialogOpen(false)}
+        open={dialogMap["delete"]}
+        handleClose={() => setDialogOpen("delete", false)}
         primaryAction={async () => {
           try {
             await deleteDevice(selectedDevice.id);
-            setDeleteDialogOpen(false);
+            setDialogOpen("delete", false);
             refetchDevices();
             // show success snackbar
           } catch (e) {
@@ -106,8 +104,8 @@ export default function Devices() {
       />
 
       <DeviceDialog
-        open={deviceDialogOpen}
-        handleClose={() => setDeviceDialogOpen(false)}
+        open={dialogMap["device"]}
+        handleClose={() => setDialogOpen("device", false)}
       />
     </StyledPaper>
   );

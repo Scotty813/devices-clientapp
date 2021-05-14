@@ -1,6 +1,9 @@
+import Button from "@material-ui/core/Button";
 import Devices from "./components/Devices";
 import Header from "./components/Header";
 import styled from "styled-components";
+import { useDeviceContext } from "./context/DeviceContext";
+import { useDialogContext } from "./context/DialogContext";
 
 const Main = styled.div(({ theme }) => ({
   display: "grid",
@@ -15,10 +18,22 @@ const Main = styled.div(({ theme }) => ({
 }));
 
 function App() {
+  const { setDialogOpen } = useDialogContext();
+  const { setSelectedDevice, setIsNewDevice } = useDeviceContext();
   return (
     <div>
       <Header />
       <Main>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setIsNewDevice(true);
+            setSelectedDevice(null);
+            setDialogOpen("device", true);
+          }}
+        >
+          Add Device
+        </Button>
         <Devices />
       </Main>
     </div>

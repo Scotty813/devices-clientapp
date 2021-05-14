@@ -5,11 +5,20 @@ import useGetDevices from "../hooks/useGetDevices";
 const DeviceContext = createContext();
 
 export function DeviceProvider({ children }) {
-  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [selectedDevice, setSelectedDevice] = useState({});
+  const [isNewDevice, setIsNewDevice] = useState();
   const { devices, refetchDevices } = useGetDevices();
+
   return (
     <DeviceContext.Provider
-      value={{ selectedDevice, setSelectedDevice, devices, refetchDevices }}
+      value={{
+        selectedDevice,
+        setSelectedDevice,
+        devices,
+        refetchDevices,
+        isNewDevice,
+        setIsNewDevice,
+      }}
     >
       {children}
     </DeviceContext.Provider>

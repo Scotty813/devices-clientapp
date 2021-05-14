@@ -12,7 +12,9 @@ import React from "react";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
+import useAddNewDevice from "../../hooks/useAddNewDevice";
 import { useDeviceContext } from "../../context/DeviceContext";
+import { useDialogContext } from "../../context/DialogContext";
 import useEditDevice from "../../hooks/useEditDevice";
 
 const StyledTextField = styled(TextField)({
@@ -20,14 +22,16 @@ const StyledTextField = styled(TextField)({
 });
 
 export default function DeviceDialog({ open, handleClose }) {
-  const { selectedDevice, setSelectedDevice, refetchDevices } =
+  const { selectedDevice, setSelectedDevice, refetchDevices, isNewDevice } =
     useDeviceContext();
+  const { setDialogOpen } = useDialogContext();
   const editDevice = useEditDevice();
+  const addNewDevice = useAddNewDevice();
 
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{selectedDevice ? "Edit" : "Add"} Device</DialogTitle>
+        <DialogTitle>{isNewDevice ? "Add" : "Edit"} Device</DialogTitle>
         <DialogContent>
           <DialogContentText>Enter device details here:</DialogContentText>
 
@@ -94,12 +98,14 @@ export default function DeviceDialog({ open, handleClose }) {
           </Button>
           <Button
             onClick={async () => {
-              await editDevice(selectedDevice);
+              const dialogAction = isNewDevice ? addNewDevice : editDevice;
+              await dialogAction(selectedDevice);
               refetchDevices();
+              setDialogOpen("device", false);
             }}
             color="primary"
           >
-            Save Changes
+            {isNewDevice ? "Add" : "Save Changes"}
           </Button>
         </DialogActions>
       </Dialog>
