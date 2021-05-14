@@ -9,7 +9,7 @@ const Main = styled.div(({ theme }) => ({
   width: "40%",
   margin: "auto",
   padding: "64px 0",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("xs")]: {
     width: "100%",
   },
 }));

@@ -8,6 +8,7 @@ import {
   createMuiTheme,
 } from "@material-ui/core/styles";
 import { ThemeProvider } from "styled-components";
+import { DeviceProvider } from "./context/DeviceContext";
 
 const theme = createMuiTheme({
   palette: {
@@ -20,7 +21,9 @@ ReactDOM.render(
     <MuiProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <DeviceProvider>
+          <App />
+        </DeviceProvider>
       </ThemeProvider>
     </MuiProvider>
   </StylesProvider>,
