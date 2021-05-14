@@ -1,5 +1,5 @@
 export const DEVICE_TYPES = {
-  WORKSTATION: "Windows Workstation",
-  SERVER: "Windows Server",
+  WINDOWS_WORKSTATION: "Windows Workstation",
+  WINDOWS_SERVER: "Windows Server",
   MAC: "Mac",
 };
