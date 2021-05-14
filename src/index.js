@@ -13,6 +13,9 @@ import { ThemeProvider } from "styled-components";
 
 const theme = createMuiTheme({
   palette: {
+    primary: {
+      main: "#1976d2",
+    },
     type: "dark",
   },
 });
