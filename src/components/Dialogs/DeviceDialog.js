@@ -104,6 +104,11 @@ export default function DeviceDialog({ open, handleClose }) {
               setDialogOpen("device", false);
             }}
             color="primary"
+            disabled={
+              !selectedDevice?.hdd_capacity ||
+              !selectedDevice?.type ||
+              !selectedDevice?.system_name
+            }
           >
             {isNewDevice ? "Add" : "Save Changes"}
           </Button>
