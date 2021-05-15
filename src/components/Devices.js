@@ -69,9 +69,9 @@ function Device({ device }) {
   );
 }
 
-export default function Devices() {
+export default function Devices({ devices }) {
   const { dialogMap, setDialogOpen } = useDialogContext();
-  const { selectedDevice, devices, refetchDevices } = useDeviceContext();
+  const { selectedDevice, refetchDevices } = useDeviceContext();
   const deleteDevice = useDeleteDevice();
 
   return (
